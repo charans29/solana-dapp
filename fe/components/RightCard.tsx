@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { CHAINSTA_PROGRAM_ID, getChainstaProgram } from 'chainsta/chainsta-exports';
-import {useConnection, useWallet} from '@solana/wallet-adapter-react'
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey } from "@solana/web3.js";
 import { useAnchorProvider } from "./AppBar";
 import * as anchor from "@coral-xyz/anchor";
@@ -13,17 +13,17 @@ function RightCard({ isAccountRegistered, setAccountRegistered, setUsername } : 
   setUsername: (username: string) => void;
 }) {
   const [value, setValue] = useState<string>("");
-  const [viewForm, setViewFrom] = useState<boolean>(true)
+  const [viewForm, setViewFrom] = useState<boolean>(true);
   const programId: PublicKey = CHAINSTA_PROGRAM_ID;
-  const provider = useAnchorProvider()
-  const program = getChainstaProgram(provider)
-  const { connection } = useConnection()
+  const provider = useAnchorProvider();
+  const program = getChainstaProgram(provider);
+  const { connection } = useConnection();
   const { publicKey } = useWallet();
   const USER_NAME_REG_SEED = "USER_NAME_REG_SEED";
   const USER_ACCOUNT_SEED = "USER_ACCOUNT_SEED";
 
   const [avail, setAvail] = useState<boolean>(true);
-  
+
   const getRegUseramePDA = (username: string) => {
     return PublicKey.findProgramAddressSync(
       [
@@ -32,9 +32,8 @@ function RightCard({ isAccountRegistered, setAccountRegistered, setUsername } : 
       ],
       programId
     );
-  }
+  };
 
-  
   const checkUsernameOffChain = async (): Promise<boolean> => {
     try {
       const [usernameRegistryPDA, ] = getRegUseramePDA(value);
@@ -53,13 +52,14 @@ function RightCard({ isAccountRegistered, setAccountRegistered, setUsername } : 
     }
   };
 
+  // UseEffect hook to check username availability off-chain
   useEffect(() => {
     const checkAvailability = async () => {
       if (value.trim()) {
         const isAvailable = await checkUsernameOffChain();
         setAvail(isAvailable);
       } else {
-        setAvail(true);
+        setAvail(true);  // Always available if the input is empty
       }
     };
 
@@ -157,9 +157,8 @@ function RightCard({ isAccountRegistered, setAccountRegistered, setUsername } : 
         </>
         :""
       }
-
     </div>
-  )
+  );
 }
 
-export default RightCard
+export default RightCard;

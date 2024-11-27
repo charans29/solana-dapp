@@ -20,7 +20,7 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "chainsta/*": ["../chainsta/src/*"],
+      "chainsta/*": ["./chainsta/src/*"],
       "@/*": ["./*"]
     }
   },

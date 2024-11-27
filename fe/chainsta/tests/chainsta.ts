@@ -33,6 +33,7 @@ describe("Chainsta", () => {
         .initializeUseraccount(USERNAME)
         .accounts({
           accountAuthority: bob.publicKey,
+          // @ts-expect-error Using dynamic types for PDA
           userAccount: userPda,
           systemProgram: anchor.web3.SystemProgram.programId,
         })
@@ -49,7 +50,7 @@ describe("Chainsta", () => {
       assert.isTrue(!usernameAvailability, "Username is already taken");
     } catch (error) {
       assert.include(
-        error.message,
+        error instanceof Error && error.message,
         "AccountNotInitialized",
         "The program expected this account to be already initialized"
       );
@@ -69,6 +70,7 @@ describe("Chainsta", () => {
         .initializeUseraccount(USERNAME_TOO_LONG)
         .accounts({
           accountAuthority: kalisi.publicKey,
+          // @ts-expect-error Using dynamic types for PDA
           usernameRegistry: userPda,
           systemProgram: anchor.web3.SystemProgram.programId,
         })
@@ -77,7 +79,7 @@ describe("Chainsta", () => {
       assert.fail("Expected an error but did not get one");
     } catch (error) {
       assert.include(
-        error.message,
+        error instanceof Error &&  error.message,
         "Max seed length exceeded",
         "Username is too long"
       );
