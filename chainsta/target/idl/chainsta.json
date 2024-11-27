@@ -1,0 +1,292 @@
+{
+  "address": "BQV6kT5JULTSypCohqw8H8ERfL74SkexGFCK44o5Szi2",
+  "metadata": {
+    "name": "chainsta",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "check_username",
+      "discriminator": [
+        130,
+        140,
+        123,
+        155,
+        149,
+        34,
+        201,
+        28
+      ],
+      "accounts": [
+        {
+          "name": "username_registry",
+          "optional": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "username"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  85,
+                  83,
+                  69,
+                  82,
+                  95,
+                  78,
+                  65,
+                  77,
+                  69,
+                  95,
+                  82,
+                  69,
+                  71,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "username",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "initialize_useraccount",
+      "discriminator": [
+        45,
+        44,
+        150,
+        45,
+        71,
+        0,
+        247,
+        2
+      ],
+      "accounts": [
+        {
+          "name": "account_authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  85,
+                  83,
+                  69,
+                  82,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "account_authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "username",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "register_user",
+      "discriminator": [
+        2,
+        241,
+        150,
+        223,
+        99,
+        214,
+        116,
+        97
+      ],
+      "accounts": [
+        {
+          "name": "account_authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "username_registry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "username"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  85,
+                  83,
+                  69,
+                  82,
+                  95,
+                  78,
+                  65,
+                  77,
+                  69,
+                  95,
+                  82,
+                  69,
+                  71,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "username",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "UserAccount",
+      "discriminator": [
+        211,
+        33,
+        136,
+        16,
+        186,
+        110,
+        242,
+        127
+      ]
+    },
+    {
+      "name": "UsernameRegistry",
+      "discriminator": [
+        145,
+        217,
+        207,
+        126,
+        35,
+        114,
+        138,
+        18
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UserNamTooLong",
+      "msg": "Cannot create, name too long"
+    },
+    {
+      "code": 6001,
+      "name": "UsernameAlreadyTaken",
+      "msg": "this username taken by others"
+    }
+  ],
+  "types": [
+    {
+      "name": "UserAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "account_owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "username",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "post_count",
+            "type": "u32"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UsernameRegistry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "username",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ]
+}
