@@ -1,18 +1,50 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-function LeftCard() {
+function LeftCard({setUserAsset}:{
+  setUserAsset: React.Dispatch<React.SetStateAction<string[]>>;
+}) {
+  const [uploading, setUploading] = useState(false);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const files = Array.from(e.target.files).map(file => URL.createObjectURL(file));
+      setUserAsset((prevAssets) => [...prevAssets, ...files]); 
+      setUploading(false); 
+    }
+  };
+
   return (
     <div className='w-2/3 flex flex-col justify-between items-center'>
     <div className='border-[1px] border-[#323035] rounded-md h-1/2 w-full'>
 
     </div>
     <div className='h-auto rounded-lg items-center text-center'>
-        <p className='border-[0.5px] border-[#9176FED7] bg-[#14121F] rounded-md text-[#1FD8A4] cursor-pointer font-thin text-lg'>
+      <div className='border-[0.5px] border-[#313131] bg-[#FFFFFF09] rounded-md text-[#1FD8A4] font-thin text-lg'>
+      {
+        uploading
+        ? <label>Minting...</label>
+
+        : <div className='flex items-center justify-center space-x-3'>
+            <label className='cursor-pointer'>
             mint NFT
-        </p>
-        <text className="text-[#7B7B7B] font-extralight text-xs">
-          ON-CHAIN UR POST (ART)
-        </text>
+                <input className="opacity-0 absolute" type='file' onChange={handleFileChange} style={{cursor:"pointer"}}/>
+            </label> 
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className='cursor-pointer'>
+              <path d="M7.81825 1.18188C7.64251 1.00615 7.35759 1.00615 7.18185 1.18188L4.18185 4.18188C4.00611 4.35762 4.00611 4.64254 
+                4.18185 4.81828C4.35759 4.99401 4.64251 4.99401 4.81825 4.81828L7.05005 2.58648V9.49996C7.05005 9.74849 7.25152 9.94996 
+                7.50005 9.94996C7.74858 9.94996 7.95005 9.74849 7.95005 9.49996V2.58648L10.1819 4.81828C10.3576 4.99401 10.6425 4.99401 
+                10.8182 4.81828C10.994 4.64254 10.994 4.35762 10.8182 4.18188L7.81825 1.18188ZM2.5 9.99997C2.77614 9.99997 3 10.2238 3 
+                10.5V12C3 12.5538 3.44565 13 3.99635 13H11.0012C11.5529 13 12 12.5528 12 12V10.5C12 10.2238 12.2239 9.99997 12.5 
+                9.99997C12.7761 9.99997 13 10.2238 13 10.5V12C13 13.104 12.1062 14 11.0012 14H3.99635C2.89019 14 2 13.103 2 12V10.5C2 
+                10.2238 2.22386 9.99997 2.5 9.99997Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd">
+              </path>
+            </svg>
+          </div>
+      }
+      </div>  
+      <p className="text-[#E796F3] font-extralight text-xs mt-0.5">
+        ON-CHAIN UR POST (ART)
+      </p>
     </div>
 </div>
   )

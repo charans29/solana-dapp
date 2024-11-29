@@ -1,37 +1,22 @@
 import { useWallet, useConnection, AnchorWallet } from "@solana/wallet-adapter-react";
 import { AnchorProvider } from "@coral-xyz/anchor";
 import { WalletButton } from "./Wallet";
-import { useCallback, useEffect, useState } from "react";
-import { PublicKey } from "@solana/web3.js";
-import * as anchor from "@coral-xyz/anchor";
-import { CHAINSTA_PROGRAM_ID } from "chainsta/chainsta-exports";
+import { useEffect, useState } from "react";
+import { getUsernamePDA } from "@/utils/chainstaProgram";
 
 function AppBar({
   isAccountRegistered,
-  setAccountRegistered,
+  setAccountRegister,
   isUser
 }: {
   isAccountRegistered: boolean;
-  setAccountRegistered: (registered: boolean) => void;
+  setAccountRegister: (registered: boolean) => void;
   isUser: string;
 }) {
   const { publicKey } = useWallet();
-  const { connection } = useConnection(); // Added connection
+  const { connection } = useConnection();
   const [registeredUser, setRegUser] = useState<string | undefined>("");
   const [registered, setRegistered] = useState<boolean>(false);
-  const programId: PublicKey = CHAINSTA_PROGRAM_ID;
-  const USER_ACCOUNT_SEED = "USER_ACCOUNT_SEED";
-
-  const getUsernamePDA = useCallback((walletPublicKey: PublicKey): [PublicKey, number] => {
-    console.log("K K K J J J:", walletPublicKey.toBase58());
-    return PublicKey.findProgramAddressSync(
-      [
-        anchor.utils.bytes.utf8.encode(USER_ACCOUNT_SEED),
-        walletPublicKey.toBuffer()
-      ],
-      programId
-    );
-  }, []);
 
   useEffect(() => {
     const fetchUsername = async () => {
@@ -39,34 +24,31 @@ function AppBar({
         console.log("No wallet connected.");
         return;
       }
-
       try {
         const [usernameRegistryPDA] = getUsernamePDA(publicKey);
         const accountInfo = await connection.getAccountInfo(usernameRegistryPDA);
-
-        console.log("ACC OUN T I N F O :", accountInfo);
 
         if (accountInfo) {
           const accountData = accountInfo.data;
           const username = accountData.slice(40, 64);
           const decodedUsername = new TextDecoder('utf-8').decode(username).replace(/\0/g, "");
-          setAccountRegistered(false);
+          setAccountRegister(false);
           setRegUser(decodedUsername);
           setRegistered(true);
         } else {
           console.log("No username found for wallet:", publicKey.toString());
           setRegistered(false);
+          setAccountRegister(false);
         }
       } catch (error) {
         console.error("Error fetching username:", error);
       }
     };
-
     fetchUsername();
   }, [publicKey, connection, getUsernamePDA]);
 
   const registerAccount = () => {
-    setAccountRegistered(true);
+    setAccountRegister(true);
   };
 
   return (
@@ -114,5 +96,11 @@ export function useAnchorProvider() {
   const { connection } = useConnection();
   const wallet = useWallet();
 
-  return new AnchorProvider(connection, wallet as AnchorWallet, { commitment: 'confirmed' });
+  if (!connection || !wallet) {
+    throw new Error("Connection or wallet not initialized");
+  }
+
+  return new AnchorProvider(connection, wallet as AnchorWallet, {
+    commitment: 'confirmed',
+  });
 }

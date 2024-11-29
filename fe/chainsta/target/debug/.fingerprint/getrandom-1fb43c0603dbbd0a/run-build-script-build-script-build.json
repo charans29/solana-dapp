@@ -1,1 +1,1 @@
-{"rustc":16652830597103653971,"features":"","declared_features":"","target":0,"profile":0,"path":0,"deps":[[6453573393678185459,"build_script_build",false,9200990158002592169]],"local":[{"Precalculated":"0.1.16"}],"rustflags":["--cfg","procmacro2_semver_exempt"],"metadata":0,"config":0,"compile_kind":0}
+{"rustc":16652830597103653971,"features":"","declared_features":"","target":0,"profile":0,"path":0,"deps":[[6453573393678185459,"build_script_build",false,1897225028267116011]],"local":[{"Precalculated":"0.1.16"}],"rustflags":[],"metadata":0,"config":0,"compile_kind":0}
