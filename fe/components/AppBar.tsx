@@ -7,11 +7,13 @@ import { getUsernamePDA } from "@/utils/chainstaProgram";
 function AppBar({
   isAccountRegistered,
   setAccountRegister,
-  isUser
+  isUser, 
+  getUsername
 }: {
   isAccountRegistered: boolean;
   setAccountRegister: (registered: boolean) => void;
   isUser: string;
+  getUsername : (username:string) => void;
 }) {
   const { publicKey } = useWallet();
   const { connection } = useConnection();
@@ -34,6 +36,7 @@ function AppBar({
           const decodedUsername = new TextDecoder('utf-8').decode(username).replace(/\0/g, "");
           setAccountRegister(false);
           setRegUser(decodedUsername);
+          getUsername(decodedUsername);
           setRegistered(true);
         } else {
           console.log("No username found for wallet:", publicKey.toString());

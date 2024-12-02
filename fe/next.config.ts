@@ -22,6 +22,15 @@ const nextConfig: NextConfig = {
 
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ipfs.io',
+        pathname: '/ipfs/**',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
