@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/chainsta.json`.
  */
 export type Chainsta = {
-  "address": "BQV6kT5JULTSypCohqw8H8ERfL74SkexGFCK44o5Szi2",
+  "address": "6iNZbFEnnCygKihBSMgeQBzdcXN7ZQ2jYdrujQdnWQz4",
   "metadata": {
     "name": "chainsta",
     "version": "0.1.0",
@@ -13,6 +13,113 @@ export type Chainsta = {
     "description": "Created with Anchor"
   },
   "instructions": [
+    {
+      "name": "addReactions",
+      "discriminator": [
+        113,
+        13,
+        156,
+        49,
+        96,
+        9,
+        240,
+        166
+      ],
+      "accounts": [
+        {
+          "name": "reactionAuthor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "reactionAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  82,
+                  69,
+                  65,
+                  67,
+                  84,
+                  73,
+                  79,
+                  78,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "reactionAuthor"
+              },
+              {
+                "kind": "account",
+                "path": "postAccount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "postAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  80,
+                  79,
+                  83,
+                  84,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "post_account.creator",
+                "account": "postAccount"
+              },
+              {
+                "kind": "account",
+                "path": "post_account.post_index",
+                "account": "postAccount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
     {
       "name": "checkUsername",
       "discriminator": [
@@ -66,6 +173,119 @@ export type Chainsta = {
         {
           "name": "username",
           "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "createPost",
+      "discriminator": [
+        123,
+        92,
+        184,
+        29,
+        231,
+        24,
+        15,
+        202
+      ],
+      "accounts": [
+        {
+          "name": "userAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  85,
+                  83,
+                  69,
+                  82,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "accountOwner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "postAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  80,
+                  79,
+                  83,
+                  84,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "accountOwner"
+              },
+              {
+                "kind": "arg",
+                "path": "postCount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "accountOwner",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "userAccount"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "postCount",
+          "type": "u32"
+        },
+        {
+          "name": "mediaCid",
+          "type": "string"
+        },
+        {
+          "name": "timestamp",
+          "type": "i64"
         }
       ]
     },
@@ -197,9 +417,138 @@ export type Chainsta = {
           "type": "string"
         }
       ]
+    },
+    {
+      "name": "rmReactions",
+      "discriminator": [
+        93,
+        40,
+        25,
+        42,
+        200,
+        234,
+        120,
+        48
+      ],
+      "accounts": [
+        {
+          "name": "reactionAuthor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "reactionAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  82,
+                  69,
+                  65,
+                  67,
+                  84,
+                  73,
+                  79,
+                  78,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "reactionAuthor"
+              },
+              {
+                "kind": "account",
+                "path": "postAccount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "postAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  80,
+                  79,
+                  83,
+                  84,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "post_account.creator",
+                "account": "postAccount"
+              },
+              {
+                "kind": "account",
+                "path": "post_account.post_index",
+                "account": "postAccount"
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [
+    {
+      "name": "postAccount",
+      "discriminator": [
+        85,
+        236,
+        139,
+        84,
+        240,
+        243,
+        196,
+        23
+      ]
+    },
+    {
+      "name": "reactionAccount",
+      "discriminator": [
+        30,
+        119,
+        226,
+        158,
+        80,
+        93,
+        175,
+        247
+      ]
+    },
     {
       "name": "userAccount",
       "discriminator": [
@@ -237,9 +586,94 @@ export type Chainsta = {
       "code": 6001,
       "name": "usernameAlreadyTaken",
       "msg": "this username taken by others"
+    },
+    {
+      "code": 6002,
+      "name": "mediaCidTooLong",
+      "msg": "Media CID exceeds the maximum length of 64 bytes."
+    },
+    {
+      "code": 6003,
+      "name": "postCountOverflow",
+      "msg": "Post count exeeds"
+    },
+    {
+      "code": 6004,
+      "name": "maxHeartsReached",
+      "msg": "Maximum number of Hearts Reached"
+    },
+    {
+      "code": 6005,
+      "name": "minHeartsReached",
+      "msg": "Minimum number of Hearts Reached"
     }
   ],
   "types": [
+    {
+      "name": "postAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "mediaCid",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "postIndex",
+            "type": "u32"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "likes",
+            "type": "u64"
+          },
+          {
+            "name": "commentsCount",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "reactionAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "author",
+            "type": "pubkey"
+          },
+          {
+            "name": "postAccount",
+            "type": "pubkey"
+          },
+          {
+            "name": "hasLiked",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
     {
       "name": "userAccount",
       "type": {

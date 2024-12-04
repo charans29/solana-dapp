@@ -1,5 +1,5 @@
 {
-  "address": "BQV6kT5JULTSypCohqw8H8ERfL74SkexGFCK44o5Szi2",
+  "address": "6iNZbFEnnCygKihBSMgeQBzdcXN7ZQ2jYdrujQdnWQz4",
   "metadata": {
     "name": "chainsta",
     "version": "0.1.0",
@@ -7,6 +7,113 @@
     "description": "Created with Anchor"
   },
   "instructions": [
+    {
+      "name": "add_reactions",
+      "discriminator": [
+        113,
+        13,
+        156,
+        49,
+        96,
+        9,
+        240,
+        166
+      ],
+      "accounts": [
+        {
+          "name": "reaction_author",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "reaction_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  82,
+                  69,
+                  65,
+                  67,
+                  84,
+                  73,
+                  79,
+                  78,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "reaction_author"
+              },
+              {
+                "kind": "account",
+                "path": "post_account"
+              }
+            ]
+          }
+        },
+        {
+          "name": "post_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  80,
+                  79,
+                  83,
+                  84,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "post_account.creator",
+                "account": "PostAccount"
+              },
+              {
+                "kind": "account",
+                "path": "post_account.post_index",
+                "account": "PostAccount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
     {
       "name": "check_username",
       "discriminator": [
@@ -60,6 +167,119 @@
         {
           "name": "username",
           "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "create_post",
+      "discriminator": [
+        123,
+        92,
+        184,
+        29,
+        231,
+        24,
+        15,
+        202
+      ],
+      "accounts": [
+        {
+          "name": "user_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  85,
+                  83,
+                  69,
+                  82,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "account_owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "post_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  80,
+                  79,
+                  83,
+                  84,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "account_owner"
+              },
+              {
+                "kind": "arg",
+                "path": "post_count"
+              }
+            ]
+          }
+        },
+        {
+          "name": "account_owner",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "user_account"
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "post_count",
+          "type": "u32"
+        },
+        {
+          "name": "media_cid",
+          "type": "string"
+        },
+        {
+          "name": "timestamp",
+          "type": "i64"
         }
       ]
     },
@@ -191,9 +411,138 @@
           "type": "string"
         }
       ]
+    },
+    {
+      "name": "rm_reactions",
+      "discriminator": [
+        93,
+        40,
+        25,
+        42,
+        200,
+        234,
+        120,
+        48
+      ],
+      "accounts": [
+        {
+          "name": "reaction_author",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "reaction_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  82,
+                  69,
+                  65,
+                  67,
+                  84,
+                  73,
+                  79,
+                  78,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "reaction_author"
+              },
+              {
+                "kind": "account",
+                "path": "post_account"
+              }
+            ]
+          }
+        },
+        {
+          "name": "post_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  80,
+                  79,
+                  83,
+                  84,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "post_account.creator",
+                "account": "PostAccount"
+              },
+              {
+                "kind": "account",
+                "path": "post_account.post_index",
+                "account": "PostAccount"
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [
+    {
+      "name": "PostAccount",
+      "discriminator": [
+        85,
+        236,
+        139,
+        84,
+        240,
+        243,
+        196,
+        23
+      ]
+    },
+    {
+      "name": "ReactionAccount",
+      "discriminator": [
+        30,
+        119,
+        226,
+        158,
+        80,
+        93,
+        175,
+        247
+      ]
+    },
     {
       "name": "UserAccount",
       "discriminator": [
@@ -231,9 +580,94 @@
       "code": 6001,
       "name": "UsernameAlreadyTaken",
       "msg": "this username taken by others"
+    },
+    {
+      "code": 6002,
+      "name": "MediaCIDTooLong",
+      "msg": "Media CID exceeds the maximum length of 64 bytes."
+    },
+    {
+      "code": 6003,
+      "name": "PostCountOverflow",
+      "msg": "Post count exeeds"
+    },
+    {
+      "code": 6004,
+      "name": "MaxHeartsReached",
+      "msg": "Maximum number of Hearts Reached"
+    },
+    {
+      "code": 6005,
+      "name": "MinHeartsReached",
+      "msg": "Minimum number of Hearts Reached"
     }
   ],
   "types": [
+    {
+      "name": "PostAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "media_cid",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "post_index",
+            "type": "u32"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "likes",
+            "type": "u64"
+          },
+          {
+            "name": "comments_count",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ReactionAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "author",
+            "type": "pubkey"
+          },
+          {
+            "name": "post_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "has_liked",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
     {
       "name": "UserAccount",
       "type": {

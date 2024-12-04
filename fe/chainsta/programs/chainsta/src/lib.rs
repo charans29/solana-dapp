@@ -5,7 +5,7 @@ pub mod errors;
 pub mod instructions;
 pub mod states;
 
-declare_id!("BQV6kT5JULTSypCohqw8H8ERfL74SkexGFCK44o5Szi2");
+declare_id!("6iNZbFEnnCygKihBSMgeQBzdcXN7ZQ2jYdrujQdnWQz4");
 
 
 #[program]
@@ -22,5 +22,17 @@ pub mod chainsta {
 
     pub fn register_user(ctx: Context<RegisterUsername>, username: String) -> Result<()> {
         register_username(ctx, username)
+    }
+
+    pub fn create_post(ctx: Context<CreateUserPost>, post_count: u32, media_cid: String, timestamp: i64) -> Result<()> {
+        create_user_post(ctx, post_count, media_cid, timestamp)
+    }
+
+    pub fn add_reactions(ctx: Context<AddPostLikes>)-> Result<()> {
+        add_post_reactions(ctx)
+    }
+
+    pub fn rm_reactions(ctx: Context<RmPostLikes>)-> Result<()> {
+        rm_post_reactions(ctx)
     }
 }

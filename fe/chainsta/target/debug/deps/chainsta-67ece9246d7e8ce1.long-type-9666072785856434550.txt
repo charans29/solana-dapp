@@ -1,0 +1,1 @@
+std::result::Result<<instructions::create_user_post::CreateUserPost<'info> as anchor_lang::Accounts<'info, CreateUserPostBumps>>::try_accounts::__Args, std::io::Error>

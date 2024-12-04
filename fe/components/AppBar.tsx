@@ -2,18 +2,18 @@ import { useWallet, useConnection, AnchorWallet } from "@solana/wallet-adapter-r
 import { AnchorProvider } from "@coral-xyz/anchor";
 import { WalletButton } from "./Wallet";
 import { useEffect, useState } from "react";
-import { getUsernamePDA } from "@/utils/chainstaProgram";
+import { fetchUsername, getUsernamePDA } from "@/utils/chainstaProgram";
 
 function AppBar({
   isAccountRegistered,
   setAccountRegister,
   isUser, 
-  getUsername
+  getUsername,
 }: {
   isAccountRegistered: boolean;
   setAccountRegister: (registered: boolean) => void;
   isUser: string;
-  getUsername : (username:string) => void;
+  getUsername: (username:string) => void;
 }) {
   const { publicKey } = useWallet();
   const { connection } = useConnection();
@@ -21,7 +21,7 @@ function AppBar({
   const [registered, setRegistered] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchUsername = async () => {
+    const fetchUserName = async () => {
       if (!publicKey) {
         console.log("No wallet connected.");
         return;
@@ -29,25 +29,23 @@ function AppBar({
       try {
         const [usernameRegistryPDA] = getUsernamePDA(publicKey);
         const accountInfo = await connection.getAccountInfo(usernameRegistryPDA);
-
         if (accountInfo) {
-          const accountData = accountInfo.data;
-          const username = accountData.slice(40, 64);
-          const decodedUsername = new TextDecoder('utf-8').decode(username).replace(/\0/g, "");
+          const username = await fetchUsername(connection, publicKey)
           setAccountRegister(false);
-          setRegUser(decodedUsername);
-          getUsername(decodedUsername);
+          setRegUser(username);
+          getUsername(username);
           setRegistered(true);
         } else {
-          console.log("No username found for wallet:", publicKey.toString());
           setRegistered(false);
           setAccountRegister(false);
+          getUsername('');
+          console.log("No username found for wallet:", publicKey.toString());
         }
       } catch (error) {
         console.error("Error fetching username:", error);
       }
     };
-    fetchUsername();
+    fetchUserName();
   }, [publicKey, connection, getUsernamePDA]);
 
   const registerAccount = () => {
@@ -59,7 +57,7 @@ function AppBar({
       <text className="font-extrabold text-[#FE5431E4] text-xl scale-x-105 scale-y-90">
         CHAINSTA
       </text>
-      <div className="flex space-x-2">
+      <div className="flex space-x-2 text-white">
         {
           publicKey
             ? isAccountRegistered || registered
@@ -68,7 +66,7 @@ function AppBar({
                 </div>
               : <>
                   {
-                    !isUser.trim() &&
+                    !isUser &&
                     <button className="border-[1px] border-[#4671FFDB] bg-[#11131F] rounded-[5px] text-[#70B8FF] p-1 text-sm"
                       onClick={registerAccount}
                     >
@@ -76,7 +74,7 @@ function AppBar({
                     </button>
                   }
                 </>
-            : ""
+            : "nothing"
         }
         <WalletButton style={{
           border: "1px solid #4E1325",

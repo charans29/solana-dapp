@@ -10,7 +10,7 @@ import { ThirdwebProvider } from "@thirdweb-dev/react";
 export default function Home() {
   const [isAccountRegistered, setAccountRegister] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
-  const [asset, setAsset] = useState<string[]>([]);
+  const [postCount, setPostCount] = useState<number>(0);
   const clientID = process.env.NEXT_PUBLIC_THIRDWEB_CLIENTID;
   
   return (
@@ -30,9 +30,9 @@ export default function Home() {
       />
       <div className="h-full w-full flex flex-row justify-between p-5 space-x-2">
         <ThirdwebProvider clientId={clientID}>
-          <LeftCard setUserAsset={setAsset} />
+          <LeftCard triggerUpdate={setPostCount}/>
         </ThirdwebProvider>
-        <FeedCard userAsset={asset} username={username} />
+        <FeedCard feedUpdate={postCount}/>
         <RightCard
           isAccountRegistered={isAccountRegistered}
           setAccountRegister={setAccountRegister}

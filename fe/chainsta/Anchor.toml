@@ -7,10 +7,10 @@ resolution = true
 skip-lint = false
 
 [programs.devnet]
-chainsta = "BQV6kT5JULTSypCohqw8H8ERfL74SkexGFCK44o5Szi2"
+chainsta = "6iNZbFEnnCygKihBSMgeQBzdcXN7ZQ2jYdrujQdnWQz4"
 
 [programs.localnet]
-chainsta = "BQV6kT5JULTSypCohqw8H8ERfL74SkexGFCK44o5Szi2"
+chainsta = "6iNZbFEnnCygKihBSMgeQBzdcXN7ZQ2jYdrujQdnWQz4"
 
 [registry]
 url = "https://api.apr.dev"
