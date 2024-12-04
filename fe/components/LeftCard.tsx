@@ -123,12 +123,12 @@ const LeftCard = ({triggerUpdate}: {
               >
                 mint NFT
                 <input
-                  className="opacity-0 absolute"
+                  className="opacity-0 absolute w-14 cursor-pointer"
                   type="file"
-                  multiple
                   onChange={handleFileChange}
                   disabled={!isUserValid}
-                />
+                >
+                </input>
               </label>
               <Image
                 src="/upload.svg"
