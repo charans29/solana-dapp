@@ -10,12 +10,13 @@ import {
 import { Post } from './FeedCard';
 import { useWallet } from '@solana/wallet-adapter-react';
 
-const Heart = ({postIdx, creator, posts, setPosts, idx}:{
+const Heart = ({postIdx, creator, posts, setPosts, idx, isAccountCreated,}:{
     postIdx: number,
     creator: PublicKey,
     posts: Post[],
     setPosts: React.Dispatch<React.SetStateAction<Post[]>>,
-    idx: number
+    idx: number,
+    isAccountCreated: boolean;
 }) => {
   const [isLiked, setIsLiked] = useState(false);
   const provider = useAnchorProvider();
@@ -46,6 +47,10 @@ const Heart = ({postIdx, creator, posts, setPosts, idx}:{
 
   const toggleLike = async () => {
     if (!publicKey) return;
+    if (!isAccountCreated) {
+        alert("Please create an account to like posts.");
+        return;
+      }
     try {
       const newLikeStatus = !isLiked;
       if (newLikeStatus) {

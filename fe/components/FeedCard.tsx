@@ -1,5 +1,5 @@
-import { fetchGlobalPosts } from '@/utils/chainstaProgram';
-import { useConnection } from '@solana/wallet-adapter-react';
+import { fetchGlobalPosts, fetchUsername } from '@/utils/chainstaProgram';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey } from '@solana/web3.js';
 import { formatDistanceToNow } from 'date-fns';
 import React, { useEffect, useState } from 'react'
@@ -21,6 +21,15 @@ function FeedCard({feedUpdate}: {
 }) {
   const [posts, setPosts] = useState<Post[]>([]);
   const { connection } = useConnection();
+  const { publicKey } = useWallet();
+  const [isAccountCreated, setIsAccountCreated] = useState<boolean>(false);
+  
+  const fetchUserAccountStatus = async () => {
+    if (publicKey) {
+      const username = await fetchUsername(connection, publicKey);
+      setIsAccountCreated(username.trim().length > 0 && !username.includes("Unknown User"));
+    }
+  };
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -28,6 +37,7 @@ function FeedCard({feedUpdate}: {
       setPosts(globalPosts);
     };
     loadPosts();
+    fetchUserAccountStatus();
   }, [connection, feedUpdate]);
 
   const momentsTimestamp = (timestamp: bigint): string => {
@@ -64,7 +74,7 @@ return (
             height={500}
           />
           <div className="flex flex-row space-x-1 justify-start text-[#313131] items-center text-lg">
-            <Heart postIdx={posts[index].postIdx} creator={posts[index].creator} posts={posts} setPosts={setPosts} idx={index}/>
+            <Heart postIdx={posts[index].postIdx} creator={posts[index].creator} posts={posts} setPosts={setPosts} idx={index} isAccountCreated={isAccountCreated} />
             {posts[index].likes}
           </div>
         </div>
